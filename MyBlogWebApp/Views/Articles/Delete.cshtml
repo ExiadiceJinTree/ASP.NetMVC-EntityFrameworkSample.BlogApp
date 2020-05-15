@@ -25,7 +25,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Body)
+            <span style="white-space: pre">@Model.Body</span>  @* 複数行表示するためにwhite-space属性設定して表示 *@
         </dd>
 
         <dt>

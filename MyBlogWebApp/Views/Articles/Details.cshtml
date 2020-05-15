@@ -60,7 +60,10 @@
     
     // コメント入力フィールド
     <div class="form-group">
-        @Html.TextArea("Body", htmlAttributes: new { @class = "form-control", placeholder = "コメント", rows = 3 })
+        @* Html.TextAreaメソッドのvalueパラメータ(初期値)を指定しないオーバーロードメソッドを使用してしまうと、
+           モデルと連動してしまい、テキストエリアの初期値としてモデル=Article(記事)のBodyの値が表示されてしまう。 *@
+        @*@Html.TextArea("Body", htmlAttributes: new { @class = "form-control", placeholder = "コメント", rows = 3 })*@
+        @Html.TextArea("Body", value: "", htmlAttributes: new { @class = "form-control", placeholder = "コメント", rows = 3 })
     </div>
     // 投稿ボタン
     <input type="submit" value="投稿" class="btn btn-default" />

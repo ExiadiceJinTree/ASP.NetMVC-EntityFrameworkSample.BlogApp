@@ -27,11 +27,14 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Body, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Body, new { htmlAttributes = new { @class = "form-control" } })
+                @* 記事本文は大量に文字を入力するので、Html.EditorForメソッド(input要素)ではなく、Html.TextAreaメソッド(textarea要素)を用いる *@
+                @Html.TextAreaFor(model => model.Body, htmlAttributes: new { @class = "form-control" })
+                @*@Html.EditorFor(model => model.Body, new { htmlAttributes = new { @class = "form-control" } })*@
                 @Html.ValidationMessageFor(model => model.Body, "", new { @class = "text-danger" })
             </div>
         </div>
 
+        @* 投稿日時と更新日時は自動セットするため入力項目としない。
         <div class="form-group">
             @Html.LabelFor(model => model.CreatedDateTime, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -45,6 +48,16 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ModifiedDateTime, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ModifiedDateTime, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        *@
+
+        @* カテゴリ名入力項目を追加 *@
+        <div class="form-group">
+            @Html.LabelFor(model => model.CategoryName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CategoryName, "", new { @class = "text-danger" })
             </div>
         </div>
 

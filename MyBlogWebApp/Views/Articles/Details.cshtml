@@ -1,51 +1,102 @@
-﻿@model MyBlogWebApp.Models.Article
+﻿@using MyBlogWebApp.Models  @*Commentクラスを使用するため、Models名前空間を宣言*@
+
+@model MyBlogWebApp.Models.Article
 
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
-
+@* 記事内容 *@
 <div>
-    <h4>Article</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
+    @* ページヘッダー: 記事タイトル *@
+    <div class="page-header">
+        <h2>@Html.DisplayFor(model => model.Title)</h2>
+    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
+    @* 記事のカテゴリのDetailsビューへのリンクを表示 *@
+    <p class="text-muted">
+        @Html.DisplayNameFor(model => model.Category.CategoryName):
+        @if (Model.Category != null)
+        {
+            @Html.ActionLink(Model.Category.CategoryName, "Details", new { Controller = "Categories", id = Model.Category.Id })
+        }
+        else  // 記事にカテゴリが設定されていない場合
+        {
+            <span>なし</span>
+        }
+    </p>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Body)
-        </dt>
+    @* 記事本文 *@
+    <div class="lead">
+        @Html.DisplayFor(model => model.Body)
+    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Body)
-        </dd>
+    @* 記事フッター: 投稿日時、更新日時、編集画面リンクボタン、削除画面リンクボタン *@
+    <div class="text-right text-muted">
+        @Html.DisplayNameFor(model => model.CreatedDateTime):
+        @Html.DisplayFor(model => model.CreatedDateTime)
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedDateTime)
-        </dt>
+        @Html.DisplayNameFor(model => model.ModifiedDateTime):
+        @Html.DisplayFor(model => model.ModifiedDateTime)
 
-        <dd>
-            @Html.DisplayFor(model => model.CreatedDateTime)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ModifiedDateTime)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ModifiedDateTime)
-        </dd>
-
-    </dl>
+        @* 管理者の場合、編集画面と削除画面へのリンクを表示 *@
+        @if (User.IsInRole("Owners"))
+        {
+            @Html.ActionLink("編集", "Edit", new { id = Model.Id }, htmlAttributes: new { @class = "btn btn-xs btn-info" })
+            @Html.ActionLink("削除", "Delete", new { id = Model.Id }, htmlAttributes: new { @class = "btn btn-xs btn-danger" })
+        }
+    </div>
 </div>
+
+<hr />  @* 水平罫線 *@
+
+@* 記事へのコメント投稿フォーム *@
+@using (Html.BeginForm("CreateComment", "Articles"))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.Hidden("ArticleId", Model.Id)  @* 記事のIdを保持する非表示要素。キー名はCreateCommentアクションの引数でバインド設定したArticleIdと同じ。 *@
+    
+    // コメント入力フィールド
+    <div class="form-group">
+        @Html.TextArea("Body", htmlAttributes: new { @class = "form-control", placeholder = "コメント", rows = 3 })
+    </div>
+    // 投稿ボタン
+    <input type="submit" value="投稿" class="btn btn-default" />
+}
+
+<hr />  @* 水平罫線 *@
+
+@* 記事へのコメント一覧 *@
+<div>
+@foreach (var comment in Model.Comments)
+{
+    // 各コメントはbootstrapのパネルコンポーネントで表示する
+    <div class="panel panel-default">
+        @* パネルヘッダー: なし *@
+        @* パネルボディ: コメント本文 *@
+        <div class="panel-body">
+            @Html.DisplayFor(model => comment.Body)
+        </div>
+        @* パネルフッター: コメント投稿日時、コメント削除画面リンクボタン *@
+        <div class="panel-footer text-right">
+            <span class="text-muted">
+                @Html.DisplayNameFor(model => comment.CreatedDateTime):
+                @Html.DisplayFor(model => comment.CreatedDateTime)
+            </span>
+            @* 管理者の場合、コメント削除画面リンクボタンを表示 *@
+            @if (User.IsInRole("Owners"))
+            {
+                @Html.ActionLink("削除", "DeleteComment", new { id = comment.Id }, htmlAttributes: new { @class = "btn btn-xs btn-danger" })
+            }
+        </div>
+    </div>
+}
+</div>
+
+<hr />  @* 水平罫線 *@
+
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

@@ -20,6 +20,7 @@ namespace MyBlogWebApp.Controllers
     ///   ・ビュー:
     ///     ・ビューの生成=true  ・スクリプトライブラリの参照=true  ・レイアウトページの使用=true(~/Views/Shared/_Layout.cshtml)
     /// </summary>
+    [CategoryFilter]  // Categoryに関するAction Filter属性の指定により、本コントローラの各アクションが実行される際に、指定のAction Filterの処理が実行される。
     public class ArticlesController : Controller
     {
         private BlogContext db = new BlogContext();

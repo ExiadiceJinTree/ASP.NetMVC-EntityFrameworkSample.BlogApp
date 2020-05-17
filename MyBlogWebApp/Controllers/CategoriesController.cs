@@ -20,6 +20,7 @@ namespace MyBlogWebApp.Controllers
     ///     ・ビューの生成=true  ・スクリプトライブラリの参照=true  ・レイアウトページの使用=true(~/Views/Shared/_Layout.cshtml)
     /// * カテゴリの登録、更新の方法は、記事の登録/更新時に一緒に行われる方法のみとするため、本コントローラーにはカテゴリの登録、更新アクション&ビューは用意しない。
     /// </summary>
+    [CategoryFilter]  // Categoryに関するAction Filter属性の指定により、本コントローラの各アクションが実行される際に、指定のAction Filterの処理が実行される。
     public class CategoriesController : Controller
     {
         private BlogContext db = new BlogContext();

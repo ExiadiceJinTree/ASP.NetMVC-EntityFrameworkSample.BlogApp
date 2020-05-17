@@ -1,4 +1,6 @@
-﻿@{
+﻿@using MyBlogWebApp.Models
+
+@{
     // 現在のリクエストのコントローラ名とアクション名を取得
     var reqControllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
     var reqActionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
@@ -70,7 +72,21 @@
             </div>
             <div class="col-md-3">
                 @* 右:サイドメニューエリア *@
-                <h3>サイドメニュー</h3>
+                @* bootstrapのlist-groupを用いて、カテゴリ一覧を表示 *@
+                <ul class="list-group">
+                    @* リストのヘッダーの役割とするためactiveにする *@
+                    <li class="list-group-item active">カテゴリ</li>
+                    @*リストデータ*@
+                    @foreach (Category category in ViewBag.Categories)  // * Categoryクラスを認識するために、usingでModels名前空間を読み込んでおく
+                    {
+                        <li class="list-group-item">
+                            @*カテゴリ詳細画面へのリンクを表示し、隣にカテゴリに属する記事数をハイライト表示。*@
+                            @** リストの場合は既定でバッジが自動的に右寄せになる(HTMLでbadgeを先に書いていても)。*@
+                            <span class="badge">@Html.DisplayFor(model => category.ArticleCount)</span>
+                            @Html.ActionLink(category.CategoryName, "Details", new { controller = "Categories", id = category.Id })
+                        </li>
+                    }
+                </ul>
             </div>
         }
     </div>

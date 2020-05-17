@@ -1,4 +1,6 @@
-﻿@model MyBlogWebApp.Models.Article
+﻿@using MyBlogWebApp.Models 　@*Categoryクラスを扱うため*@  
+
+@model MyBlogWebApp.Models.Article
 
 @{
     ViewBag.Title = "Create";
@@ -56,8 +58,17 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CategoryName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control" } })
+                @* list属性で指定したdatalistタグの入力候補が表示される *@
+                @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control", list = "categories" } })
                 @Html.ValidationMessageFor(model => model.CategoryName, "", new { @class = "text-danger" })
+
+                @*idで紐づけられたテキストボックスに、datalistタグで定義された内容が入力候補として表示される。*@
+                <datalist id="categories">  @*datalistタグ自体は表示されない*@
+                    @foreach (Category category in ViewBag.Categories)
+                    {
+                        <option>@Html.DisplayFor(model => category.CategoryName)</option>
+                    }
+                </datalist>
             </div>
         </div>
 

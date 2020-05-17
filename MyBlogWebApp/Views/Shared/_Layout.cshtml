@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@{
+    // 現在のリクエストのコントローラ名とアクション名を取得
+    var reqControllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    var reqActionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
+}
+
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -30,6 +36,7 @@
         <div class="container">
             <div class="navbar-header">
                 @* タイトル(記事一覧へのリンク付き) *@
+                @* ログイン画面でもログインをキャンセルして記事一覧画面へ戻れる *@
                 @Html.ActionLink("MyBlog", "Index", new { Controller = "Articles" }, new { @class = "navbar-brand" })
             </div>
             <ul class="nav navbar-nav navbar-right">
@@ -40,19 +47,32 @@
                 }
                 else
                 {
-                    <li>@Html.ActionLink("ログイン", "Index", "Login")</li>
+                    // 認証済みでないとき、ログイン画面以外ではログイン画面リンクを表示
+                    if (!(reqControllerName.Equals("Login") && reqActionName.Equals("Index")))
+                    {
+                        <li>@Html.ActionLink("ログイン", "Index", "Login")</li>
+                    }
                 }
             </ul>
         </div>
     </nav>
 
     <div class="container">
-        <div class="col-md-9">  @* 左:メインコンテンツエリア *@
+        @if (reqControllerName.Equals("Login") && reqActionName.Equals("Index"))
+        {
             @RenderBody()
-        </div>
-        <div class="col-md-3">  @* 右:サイドメニューエリア *@
-            <h3>サイドメニュー</h3>
-        </div>
+        }
+        else
+        {
+            <div class="col-md-9">
+                @* 左:メインコンテンツエリア *@
+                @RenderBody()
+            </div>
+            <div class="col-md-3">
+                @* 右:サイドメニューエリア *@
+                <h3>サイドメニュー</h3>
+            </div>
+        }
     </div>
 </body>
 </html>

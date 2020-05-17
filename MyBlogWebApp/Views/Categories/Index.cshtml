@@ -7,9 +7,6 @@
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -30,9 +27,9 @@
             @Html.DisplayFor(modelItem => item.ArticleCount)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @* カテゴリの登録、更新アクション&ビューは用意していない。 *@
+            @* カテゴリの削除も、ここからできないようにしておく。 *@
+            @Html.ActionLink("Details", "Details", new { id = item.Id })
         </td>
     </tr>
 }

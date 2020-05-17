@@ -5,31 +5,47 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+<h2>
+    @Html.DisplayFor(model => model.CategoryName)
+</h2>
 
-<div>
-    <h4>Category</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.CategoryName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CategoryName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ArticleCount)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ArticleCount)
-        </dd>
-
-    </dl>
-</div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+@* カテゴリに属する記事一覧を表示する *@
+@foreach (var article in Model.Articles)
+{
+    // 各記事はbootstrapのパネルコンポーネントで表示する
+    <div class="panel panel-default">
+        @* パネルヘッダー: 記事タイトル *@
+        <div class="panel-heading">
+            @Html.DisplayFor(model => article.Title)
+        </div>
+        @* パネルボディ: 記事本文、詳細内容へのリンク *@
+        <div class="panel-body">
+            <div class="article-body">
+                @Html.DisplayFor(model => article.Body)
+            </div>
+            <div class="text-right text-muted">
+                @Html.ActionLink("続きを読む", "Details", new { Controller = "Articles", id = article.Id })
+            </div>
+        </div>
+        @* パネルフッター: 投稿日時、更新日時 *@
+        <div class="panel-footer">
+            @* 記事のカテゴリのDetailsビューへのリンク *@
+            @Html.DisplayNameFor(model => article.CategoryName):
+            @Html.ActionLink(article.Category.CategoryName, "Details", new { id = article.Category.Id })
+            @* 記事の投稿日時 *@
+            @Html.DisplayNameFor(model => article.CreatedDateTime):
+            @Html.DisplayFor(model => article.CreatedDateTime)
+            @* 記事の更新日時 *@
+            @Html.DisplayNameFor(model => article.ModifiedDateTime):
+            @Html.DisplayFor(model => article.ModifiedDateTime)
+        </div>
+    </div>
+}
+
+<p>
     @Html.ActionLink("Back to List", "Index")
 </p>

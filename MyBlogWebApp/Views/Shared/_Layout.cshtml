@@ -30,9 +30,19 @@
         }
 
         body {
-            padding-top: 70px;  /* bootstrapのnavigation barを(navbar-fixed-topで)表示する際に、ページ上部に70pxの余白が必要なため。 */
+            padding-top: 70px; /* bootstrapのnavigation barを(navbar-fixed-topで)表示する際に、ページ上部に70pxの余白が必要なため。 */
         }
 
+        /* 記事やコメント等、文章ブロックの設定 */
+        .sentence {
+            /* 文字列の複数行(改行/whitespace)表示 & 折り返しの設定 */
+            /* pre-wrapよりbreak-spacesの方がいいが、記述時点ではサポート対象外ブラウザが無視できないため併記する */
+            white-space: pre-wrap;
+            white-space: break-spaces;
+
+            /* 文字列の折り返し設定 */
+            overflow-wrap: break-word;
+        }
 
         /* 複数行の省略表示 */
         .line-clamp {

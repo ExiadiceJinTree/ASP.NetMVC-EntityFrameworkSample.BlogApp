@@ -29,7 +29,7 @@
 
     @* 記事本文 *@
     <div class="lead">
-        <span style="white-space: pre">@Model.Body</span>  @* 複数行表示するためにwhite-space属性設定して表示 *@
+        <span class="sentence">@Model.Body</span>
     </div>
 
     @* 記事フッター: 投稿日時、更新日時、編集画面リンクボタン、削除画面リンクボタン *@
@@ -80,7 +80,7 @@
         @* パネルヘッダー: なし *@
         @* パネルボディ: コメント本文 *@
         <div class="panel-body">
-            <span style="white-space: pre">@comment.Body</span>  @* 複数行表示するためにwhite-space属性設定して表示 *@
+            <span class="sentence">@comment.Body</span>
         </div>
         @* パネルフッター: コメント投稿日時、コメント削除画面リンクボタン *@
         <div class="panel-footer text-right">

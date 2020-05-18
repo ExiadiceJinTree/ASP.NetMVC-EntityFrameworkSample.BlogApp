@@ -16,7 +16,7 @@
         </div>
         @* パネルボディ: 記事本文、詳細内容へのリンク *@
         <div class="panel-body">
-            <div class="article-body">  @* 共通レイアウトに定義した[各記事項目の設定]のcssを適用 *@
+            <div class="line-clamp">
                 @Html.DisplayFor(model => item.Body)
             </div>
             <div class="text-right text-muted">  @* 右寄せ、弱い文字色 *@

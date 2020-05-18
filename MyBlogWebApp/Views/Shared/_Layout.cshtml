@@ -17,18 +17,30 @@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 
     <style type="text/css">
+        :root {
+            /****************************************************************************************************
+              基準値
+            ****************************************************************************************************/
+            /* 複数行を省略表示するline-clampスタイルに関わる基準値 */
+            --line-clamp-linenum-std: 2; /* 折り返し表示する行数 */
+
+            /****************************************************************************************************
+              オプション値
+            ****************************************************************************************************/
+        }
+
         body {
             padding-top: 70px;  /* bootstrapのnavigation barを(navbar-fixed-topで)表示する際に、ページ上部に70pxの余白が必要なため。 */
         }
 
-        /* ArticleのIndexビューでの各記事項目の設定 */
-        .article-body {
-            height: 60px;  /* 各記事項目の高さ */
 
-            /* 複数行の記事本文を省略表示する */
-            text-overflow: ellipsis;
-            overflow: hidden;
-            white-space: nowrap
+        /* 複数行の省略表示 */
+        .line-clamp {
+            display: -webkit-box; /* Flexboxの状態にする(line-clamp有効化に必要) */
+            -webkit-box-orient: vertical; /* Flexboxの子要素の配置方向(line-clamp有効化に必要) */
+            -webkit-line-clamp: var(--line-clamp-linenum, var(--line-clamp-linenum-std)); /* 折り返し表示する行数 */
+            overflow: hidden; /* ボックスからはみ出た分を非表示にする */
+            width: var(--line-clamp-width, 100%) /* 必須ではないがoverflow,折り返しを効かせるために設定(指定せずウィンドウ幅に任せても作用する) */
         }
     </style>
 </head>

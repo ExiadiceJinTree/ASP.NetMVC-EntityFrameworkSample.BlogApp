@@ -24,7 +24,7 @@
         </div>
         @* パネルボディ: 記事本文、詳細内容へのリンク *@
         <div class="panel-body">
-            <div class="article-body">
+            <div class="line-clamp" style="--line-clamp-linenum: 3;">
                 @Html.DisplayFor(model => article.Body)
             </div>
             <div class="text-right text-muted">

@@ -32,7 +32,9 @@ namespace MyBlogWebApp.Controllers
         [AllowAnonymous]  // 記事一覧には認証していない状態でもアクセスできるようにする。
         public async Task<ActionResult> Index()
         {
-            return View(await db.Articles.ToListAsync());
+            return View(await db.Articles
+                                .OrderByDescending(a => a.ModifiedDateTime)  // 記事の更新日時が新しい順に表示
+                                .ToListAsync());
         }
 
         // GET: Articles/Details/5

@@ -14,7 +14,7 @@
 </p>
 
 @* カテゴリに属する記事一覧を表示する *@
-@foreach (var article in Model.Articles)
+@foreach (var article in Model.Articles.OrderByDescending(a => a.ModifiedDateTime))  // 記事の更新日時が新しい順に表示
 {
     // 各記事はbootstrapのパネルコンポーネントで表示する
     <div class="panel panel-default">

@@ -33,7 +33,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.CreatedDateTime)
+            <span class="dateTimeToConvertToClientFromUtc">@Model.CreatedDateTime.ToString("yyyy/MM/dd HH:mm:ss")</span>
         </dd>
 
     </dl>

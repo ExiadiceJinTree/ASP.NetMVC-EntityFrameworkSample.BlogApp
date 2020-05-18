@@ -90,5 +90,38 @@
             </div>
         }
     </div>
+
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+        @**
+         * 指定のセレクタが付与されているHTML要素(textが日時文字列でUTC日時と想定)について、
+         * その各要素のUTC日時文字列をクライアント側ロケール日時文字列に変換する。省略した場合、
+         * @param dateTimeSelectorToConvert 変換対象のHTML要素を識別するためのセレクタ。
+         * @param locale 変換後の日時文字列をフォーマットするためのロケール文字("ja-JP"など)。省略した場合、JavaScript runtimeのデフォルトロケールが使われる。
+         *@
+        const convertDateTimeToClientFromUtc = (dateTimeSelectorToConvert, locale) => {
+            $(dateTimeSelectorToConvert).each(function (elemIdx, elem) {
+                const dateTimeUtc = new Date($(elem).text());
+
+                const clientUtcTimeOffsetByMin = -1 * (new Date()).getTimezoneOffset();
+
+                const dateTimeCli = new Date(dateTimeUtc.getTime());
+                dateTimeCli.setMinutes(dateTimeCli.getMinutes() + clientUtcTimeOffsetByMin);
+
+                const dateTimeCliFormattedStr = dateTimeCli.toLocaleString(locale);
+                $(elem).text(dateTimeCliFormattedStr);
+            });
+        };
+    </script>
+    <script>
+        $(function () {
+            // 各ビューの日時(UTC)をクライアントロケール日時に変換する。フォーマットは"yyyy/MM/dd hh:mm:ss"とするためja-JPとする。
+            convertDateTimeToClientFromUtc(".dateTimeToConvertToClientFromUtc", "ja-JP");
+        });
+    </script>
 </body>
 </html>

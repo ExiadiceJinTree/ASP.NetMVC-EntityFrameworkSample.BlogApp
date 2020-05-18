@@ -30,10 +30,10 @@
             @Html.ActionLink(item.Category.CategoryName, "Details", new { Controller = "Categories", id = item.Category.Id })
             @* 記事の投稿日時 *@
             @Html.DisplayNameFor(model => model.CreatedDateTime):
-            @Html.DisplayFor(model => item.CreatedDateTime)
+            <span class="dateTimeToConvertToClientFromUtc">@item.CreatedDateTime.ToString("yyyy/MM/dd HH:mm:ss")</span>
             @* 記事の更新日時 *@
             @Html.DisplayNameFor(model => model.ModifiedDateTime):
-            @Html.DisplayFor(model => item.ModifiedDateTime)
+            <span class="dateTimeToConvertToClientFromUtc">@item.ModifiedDateTime.ToString("yyyy/MM/dd HH:mm:ss")</span>
         </div>
     </div>
 }

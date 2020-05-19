@@ -118,31 +118,55 @@
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
+    <script src="~/Scripts/moment.min.js"></script>
+    <script src="~/Scripts/moment-with-locales.min.js"></script>
+    @*<script src="~/Scripts/moment-timezone.min.js"></script>*@
+    @*<script src="~/Scripts/moment-timezone-with-data.min.js"></script>*@
+
     <script>
         @**
-         * 指定のセレクタが付与されているHTML要素(textが日時文字列でUTC日時と想定)について、
+         * 指定のセレクタが付与されているHTML要素(textがISO8601形式のUTC日時(末尾がZ)と想定)について、
          * その各要素のUTC日時文字列をクライアント側ロケール日時文字列に変換する。省略した場合、
          * @param dateTimeSelectorToConvert 変換対象のHTML要素を識別するためのセレクタ。
-         * @param locale 変換後の日時文字列をフォーマットするためのロケール文字("ja-JP"など)。省略した場合、JavaScript runtimeのデフォルトロケールが使われる。
          *@
-        const convertDateTimeToClientFromUtc = (dateTimeSelectorToConvert, locale) => {
+        const convertDateTimeToClientFromUtc = (dateTimeSelectorToConvert) => {
             $(dateTimeSelectorToConvert).each(function (elemIdx, elem) {
-                const dateTimeUtc = new Date($(elem).text());
+                /* [Moment.jsライブラリによる方法] */
+                // ブラウザのロケールをmomentに設定
+                const locale = window.navigator.userLanguage || window.navigator.language;
+                moment.locale(locale);
+
+                // ISO8601規格に基づいたタイムゾーンオフセット付き日時文字列("yyyy-MM-ddTHH:mm:ssZ"等)をmomentコンストラクタの引数に指定して生成したmomentオブジェクトの場合、
+                // ローカルモードとなるので、出力表示時に現地ロケールに調整されて表示される。
+                // * moment(...): ローカルモード。あいまいな入力(オフセットなし)は現地時間と見なされます。明確な入力(オフセットあり)は現地時間に調整されます。
+                const targetMoment = moment($(elem).text().trim());
+                $(elem).text(targetMoment.format("llll"));  // 年月日・曜日・時分をローカライズ表示(曜日等が短い版) (例：日本では"2018年8月22日(水) 04:15")
+
+                /* [JS標準Dateクラスによる方法1]
+                // ISO8601規格に基づいたUTC文字列("yyyy-MM-ddTHH:mm:ssZ")をDateコンストラクタの引数に指定して生成したDateオブジェクトの場合、
+                // toString(),toLocaleString(),getHours()等の出力用メソッドを用いるとブラウザのロケール設定を考慮した日時を返してくれる。
+                const dateTimeIsoUtc = new Date($(elem).text().trim());
+                $(elem).text(dateTimeIsoUtc.toLocaleString("ja-JP")));
+                */
+
+                /* [JS標準Dateクラスによる方法2]
+                const dateTimeUtc = new Date($(elem).text().trim());
 
                 const clientUtcTimeOffsetByMin = -1 * (new Date()).getTimezoneOffset();
 
                 const dateTimeCli = new Date(dateTimeUtc.getTime());
                 dateTimeCli.setMinutes(dateTimeCli.getMinutes() + clientUtcTimeOffsetByMin);
 
-                const dateTimeCliFormattedStr = dateTimeCli.toLocaleString(locale);
+                const dateTimeCliFormattedStr = dateTimeCli.toLocaleString("ja-JP"));
                 $(elem).text(dateTimeCliFormattedStr);
+                */
             });
         };
     </script>
     <script>
         $(function () {
-            // 各ビューの日時(UTC)をクライアントロケール日時に変換する。フォーマットは"yyyy/MM/dd hh:mm:ss"とするためja-JPとする。
-            convertDateTimeToClientFromUtc(".dateTimeToConvertToClientFromUtc", "ja-JP");
+            // 各ビューの日時(UTC)をクライアントロケール日時に変換する。
+            convertDateTimeToClientFromUtc(".dateTimeToConvertToClientFromUtc");
         });
     </script>
 </body>

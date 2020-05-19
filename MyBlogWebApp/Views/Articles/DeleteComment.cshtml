@@ -6,6 +6,8 @@
         ・部分ビューとして作成=false  ・スクリプトライブラリの参照=true  ・レイアウトページの使用=true(~/Views/Shared/_Layout.cshtml)
 *@
 
+@using MyBlogWebApp.Util
+
 @model MyBlogWebApp.Models.Comment
 
 @{
@@ -33,7 +35,7 @@
         </dt>
 
         <dd>
-            <span class="dateTimeToConvertToClientFromUtc">@Model.CreatedDateTime.ToString("yyyy/MM/dd HH:mm:ss")</span>
+            <span class="dateTimeToConvertToClientFromUtc">@Model.CreatedDateTime.ToISOStringWithUtcTimezoneStr()</span>
         </dd>
 
     </dl>

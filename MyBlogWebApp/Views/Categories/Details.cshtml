@@ -1,4 +1,6 @@
-﻿@model MyBlogWebApp.Models.Category
+﻿@using MyBlogWebApp.Util
+
+@model MyBlogWebApp.Models.Category
 
 @{
     ViewBag.Title = "Details";
@@ -38,10 +40,10 @@
             @Html.ActionLink(article.Category.CategoryName, "Details", new { id = article.Category.Id })
             @* 記事の投稿日時 *@
             @Html.DisplayNameFor(model => article.CreatedDateTime):
-            <span class="dateTimeToConvertToClientFromUtc">@article.CreatedDateTime.ToString("yyyy/MM/dd HH:mm:ss")</span>
+            <span class="dateTimeToConvertToClientFromUtc">@article.CreatedDateTime.ToISOStringWithUtcTimezoneStr()</span>
             @* 記事の更新日時 *@
             @Html.DisplayNameFor(model => article.ModifiedDateTime):
-            <span class="dateTimeToConvertToClientFromUtc">@article.ModifiedDateTime.ToString("yyyy/MM/dd HH:mm:ss")</span>
+            <span class="dateTimeToConvertToClientFromUtc">@article.ModifiedDateTime.ToISOStringWithUtcTimezoneStr()</span>
         </div>
     </div>
 }

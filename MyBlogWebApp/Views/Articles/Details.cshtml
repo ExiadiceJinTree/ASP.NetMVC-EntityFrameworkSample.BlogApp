@@ -1,4 +1,5 @@
 ﻿@using MyBlogWebApp.Models  @*Commentクラスを使用するため、Models名前空間を宣言*@
+@using MyBlogWebApp.Util
 
 @model MyBlogWebApp.Models.Article
 
@@ -35,10 +36,10 @@
     @* 記事フッター: 投稿日時、更新日時、編集画面リンクボタン、削除画面リンクボタン *@
     <div class="text-right text-muted">
         @Html.DisplayNameFor(model => model.CreatedDateTime):
-        <span class="dateTimeToConvertToClientFromUtc">@Model.CreatedDateTime.ToString("yyyy/MM/dd HH:mm:ss")</span>
+        <span class="dateTimeToConvertToClientFromUtc">@Model.CreatedDateTime.ToISOStringWithUtcTimezoneStr()</span>
 
         @Html.DisplayNameFor(model => model.ModifiedDateTime):
-        <span class="dateTimeToConvertToClientFromUtc">@Model.ModifiedDateTime.ToString("yyyy/MM/dd HH:mm:ss")</span>
+        <span class="dateTimeToConvertToClientFromUtc">@Model.ModifiedDateTime.ToISOStringWithUtcTimezoneStr()</span>
 
         @* 管理者の場合、編集画面と削除画面へのリンクを表示 *@
         @if (User.IsInRole("Owners"))
@@ -86,7 +87,7 @@
         <div class="panel-footer text-right">
             <span class="text-muted">
                 @Html.DisplayNameFor(model => comment.CreatedDateTime):
-                <span class="dateTimeToConvertToClientFromUtc">@comment.CreatedDateTime.ToString("yyyy/MM/dd HH:mm:ss")</span>
+                <span class="dateTimeToConvertToClientFromUtc">@comment.CreatedDateTime.ToISOStringWithUtcTimezoneStr()</span>
             </span>
             @* 管理者の場合、コメント削除画面リンクボタンを表示 *@
             @if (User.IsInRole("Owners"))

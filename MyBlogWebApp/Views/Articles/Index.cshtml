@@ -1,4 +1,6 @@
-﻿@model IEnumerable<MyBlogWebApp.Models.Article>
+﻿@using MyBlogWebApp.Util
+
+@model IEnumerable<MyBlogWebApp.Models.Article>
 
 @{
     ViewBag.Title = "Index";
@@ -30,10 +32,10 @@
             @Html.ActionLink(item.Category.CategoryName, "Details", new { Controller = "Categories", id = item.Category.Id })
             @* 記事の投稿日時 *@
             @Html.DisplayNameFor(model => model.CreatedDateTime):
-            <span class="dateTimeToConvertToClientFromUtc">@item.CreatedDateTime.ToString("yyyy/MM/dd HH:mm:ss")</span>
+            <span class="dateTimeToConvertToClientFromUtc">@item.CreatedDateTime.ToISOStringWithUtcTimezoneStr()</span>
             @* 記事の更新日時 *@
             @Html.DisplayNameFor(model => model.ModifiedDateTime):
-            <span class="dateTimeToConvertToClientFromUtc">@item.ModifiedDateTime.ToString("yyyy/MM/dd HH:mm:ss")</span>
+            <span class="dateTimeToConvertToClientFromUtc">@item.ModifiedDateTime.ToISOStringWithUtcTimezoneStr()</span>
         </div>
     </div>
 }

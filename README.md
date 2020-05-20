@@ -3,6 +3,7 @@ A Blog app that is a sample of development using ASP.NET MVC and Entity Framewor
 
 # Technology Used/Focused
 - ASP.NET MVC (Not ASP.NET Core MVC)
+  - Custom Action Filter (OnActionExecuted, OnActionExecuting)
 - Entity Framework
   - Code First
   - Automatic migration
@@ -16,7 +17,7 @@ A Blog app that is a sample of development using ASP.NET MVC and Entity Framewor
   - Apply the design as a whole
   - Header navigation bar, hamburger button/menu
   - On the screen after signing in, the body element is divided into a left main content area and a right side menu area.  
-A category list is displayed in the right side menu area.
+    A category list is displayed in the right side menu area.
   - Each item in the item list as follows is displayed as a Panel component:
     - Each article on the article list screen
     - Each article in the article list on the category detail screen
@@ -27,7 +28,7 @@ A category list is displayed in the right side menu area.
   - Moment.js & ISO8601 format
     - ISO8601 format date/time character string and Moment.js library are used as a method to display the date/time to be displayed on the screen by converting from UTC to client locale.
 - Others
-  - Input candidates are displayed in the category name input text box on the article registration / edit screen by using the list attribute and datalist tag.
+  - Input candidates are displayed in the category name input text box on the article registration / edit screen by using the list attribute and datalist tag and ViewBag's list data.
   - In each article item on the article list screen and each article item in the article list on the category details screen, the article body is displayed in a plurality of lines and omitted.
   - On each screen that displays the entire article body, the article body text is properly wrapped and displayed in a block, and whitespaces (line-break, etc.) in the article body itself are displayed correctly.
 
